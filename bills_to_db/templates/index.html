@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/f/css/main.css">
+        <title>Bills List</title>
+    </head>
+    <body>
+        <div class="doc-body">
+            <div style="max-width: 800px;" class="table-container">
+                <div class="scrollable-table">
+                    <h1>Bills</h1>
+                    <table class="bills-info">
+                        <thead>
+                            <tr>
+                                <th>Filename</th>
+                                <th>Info</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for bill in bills %}
+                            <tr class="bill-large-row">
+                                <td class="bill-filename">
+                                    <img class="bill-pic" src="/f/pdf_imgs/{{bill.filename|default(value='')}}">
+                                </td>
+                                <td class="bill-small-row">
+                                    <table class="bill-sub-table">
+                                        <tr>
+                                            <td class="bill-table-legend-col">
+                                                (€)
+                                            </td>
+                                            <td class="bill-info bill-amount bill-table-info-col">
+                                                {% if bill.amount %}
+                                                {{ bill.amount | round(method="ceil", precision=2) }}
+                                                {% else %}
+
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="bill-table-legend-col">date
+                                            </td>
+                                            <td class="bill-date bill-table-info-col">{{ bill.date }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="bill-table-legend-col">id</td>
+                                            <td class="bill-id bill-table-info-col">{{ bill.id }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="bill-table-legend-col">filename</td>
+                                            <td class="bill-table-info-col">{{ bill.filename }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="edit-bill">
+                                                <a href="http://localhost:8080/bill?no={{bill.id}}">
+                                                    <button>edit</button>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="table-container">
+                <div class="scrollable-table">
+                    <h1>Expenses</h1>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>id</th>
+                                <th>Partner</th>
+                                <th>Amount (€)</th>
+                                <th>Bill</th>
+                                <th>Type</th>
+                                <th>Application</th>
+                                <th>Date</th>
+                                <th>Cash</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for expense in expenses %}
+                            <tr class="expense-row">
+                                <td class="expense-id">{{ expense.id }}</td>
+                                <td class="expense-partner">{{ expense.partner }}</td>
+                                <td class="expense-amount">
+                                    {% if expense.amount %}
+                                    {{ expense.amount | round(method="ceil", precision=2) }}
+                                    {% endif %}
+                                </td>
+                                <td class="expense-bill">
+                                    <input class="input-bill" type="number" name="number" min="1" max="230" value="{{ expense.bill }}" onchange="updateBillNumber('/setBillNumber', {{ expense.id }}, this.value)">
+                                </td>
+                                <td class="expense-type">
+                                    <select name="expense_type" id="expense_type" onchange="updateBillNumber('/setExpenseTypeNumber', {{expense.id}}, this.value)">
+                                        <option value="0" {% if expense.expense_type == 0 %}selected{% endif %}>None</option>
+                                        <option value="1" {% if expense.expense_type == 1 %}selected{% endif %}>Honorare Kurator innen</option>
+                                        <option value="2" {% if expense.expense_type == 2 %}selected{% endif %}>Honorare Texte</option>
+                                        <option value="3" {% if expense.expense_type == 3 %}selected{% endif %}>Honorare Grafik/Layout/Fotos</option>
+                                        <option value="4" {% if expense.expense_type == 4 %}selected{% endif %}>Honorare Künstler:innen - Gruppenausstellung</option>
+                                        <option value="5" {% if expense.expense_type == 5 %}selected{% endif %}>Honorar Künstler:in - Einzelausstellung</option>
+                                        <option value="6" {% if expense.expense_type == 6 %}selected{% endif %}>Materialkosten</option>
+                                        <option value="7" {% if expense.expense_type == 7 %}selected{% endif %}>Reisekosten, Aufenthaltskosten</option>
+                                        <option value="8" {% if expense.expense_type == 8 %}selected{% endif %}>Transporte</option>
+                                        <option value="9" {% if expense.expense_type == 9 %}selected{% endif %}>Öffentlichkeitsarbeit, Marketing, PR, Social-Media</option>
+                                        <option value="10" {% if expense.expense_type == 10 %}selected{% endif %}>Abgaben, Versicherungen</option>
+                                        <option value="11" {% if expense.expense_type == 11 %}selected{% endif %}>Miete Veranstaltungsort</option>
+                                        <option value="12" {% if expense.expense_type == 12 %}selected{% endif %}>technische Ausstattung</option>
+                                        <option value="13" {% if expense.expense_type == 13 %}selected{% endif %}>Druckkosten Publikation</option>
+                                        <option value="14" {% if expense.expense_type == 14 %}selected{% endif %}>Discotec künstlerische Leitung, Geschäftsführung</option>
+                                        <option value="15" {% if expense.expense_type == 15 %}selected{% endif %}>Bewirtung, Eroffnung</option>
+                                        <option value="16" {% if expense.expense_type == 16 %}selected{% endif %}>Homepage/Internet/EDV</option>
+                                        <option value="17" {% if expense.expense_type == 17 %}selected{% endif %}>sonstige Bürokosten (Heizung, Reinigung, Telefon,Reparaturen)</option>
+                                        <option value="18" {% if expense.expense_type == 18 %}selected{% endif %}>Büromaterial, Sachgüter</option>
+                                    </select>
+                                </td>
+                                <td class="expense-application">
+                                    <select class="" name="expense-application" id="expense-application" onchange="updateBillNumber('/setApplicationNumber', {{ expense.id }}, this.value)">
+                                        <option value="0" {% if expense.application == 0 %}selected{% endif %} >-</option>
+                                        <option value="1" {% if expense.application == 1 %}selected{% endif %} >BMKOS</option>
+                                        <option value="2" {% if expense.application == 2 %}selected{% endif %} >Ma7</option>
+                                        <option value="3" {% if expense.application == 3 %}selected{% endif %} >Bezirk</option>
+                                    </select>
+                                </td>
+                                <td class="expense-date">
+                                    {{ expense.date }}
+                                </td>
+                                <td class="expense-cash">
+                                    <input type="checkbox" id="cash" name="cash" 
+                                     {% if expense.cash == true %}checked{% endif %}
+                                     onchange="updateBillNumber('/setExpenseCash', {{ expense.id }}, this.checked ? 1 : 0)">
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="applications-summary">
+                <form method="get" action="/make_reports">
+                    <input type="submit" class="button-54" value="Make Report">
+                    <label for="backup_db">Create DataBase backup</label>
+                    <input type="checkbox" name="make_backup" value="true">
+                    <input type="text" id="backup_table_name" name="backup_table_name">
+                </form>
+                <div>
+                    {% for backup in backups %}
+                    {% if backup != 'sqlite_sequence' %}
+                    <p>{{ backup }}</p>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+
+                <!-- </td> -->
+                    <div class="summary-item">
+                    <span class="summary-label">BMKOS:</span>
+                    <span class="summary-value" id="bmkos-amount">0.00</span>
+                    <table class="detail-table" id="bmkos-table">
+                        <thead>
+                            <tr><th>Type</th><th>Amount</th></tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-label">MA7:</span>
+                    <span class="summary-value" id="ma7-amount">0.00</span>
+                    <table class="detail-table" id="ma7-table">
+                        <thead>
+                            <tr><th>Type</th><th>Amount</th></tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-label">Bezirk:</span>
+                    <span class="summary-value" id="bezirk-amount">0.00</span>
+                    <table class="detail-table" id="bezirk-table">
+                        <thead>
+                            <tr><th>Type</th><th>Amount</th></tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+    </body>
+    <script src="/f/js/main.js" onerror="console.error('Failed to load main.js')"></script>
+</html>

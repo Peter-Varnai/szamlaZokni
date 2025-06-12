@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add/Edit Bill</title>
+
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            <!-- max-width: 600px;  -->
+            margin: 0 auto; 
+            padding: 20px;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            justify-content: center;
+        }
+        .form-group { margin-bottom: 15px; }
+        label { 
+            display: block; 
+            margin-bottom: 5px; 
+            font-weight: bold; 
+        }
+        input, select, textarea { 
+            width: 100%; 
+            padding: 8px; 
+            box-sizing: border-box; 
+            border: 1px solid #ccc; 
+            border-radius: 4px; 
+        }
+        button { 
+            background-color: #4CAF50; 
+            color: white; 
+            padding: 10px 15px; 
+            border: none; 
+            border-radius: 4px; 
+            cursor: pointer; 
+        }
+        button:hover { background-color: #45a049; }
+    </style>
+
+</head>
+<body>
+    <div>
+        <img style="max-height: 100vh;" src="/f/pdf_imgs/{{bill.filename|default(value='')}}">
+    </div>
+    <div style="padding-left: 45px;">
+    <h1>{{ action|default(value="Add") }} Bill</h1>
+    <form method="POST" action="/post_bill">
+        <input type="hidden" name="id" value="{{ bill.id|default(value='') }}">
+
+        <div class="form-group">
+            <label for="filename">Filename*:</label>
+            <input type="text" id="filename" name="filename" value="{{ bill.filename|default(value='') }}" required readonly>
+        </div>
+
+        <div class="form-group">
+            <label for="amount">Amount:</label>
+            <input type="number" id="amount" name="amount" value="{{ bill.amount|default(value='') }}" step="0.01" placeholder="e.g., 29.99">
+        </div>
+
+        <div class="form-group">
+            <label for="date">Date:</label>
+            <input type="date" id="date" name="date" value="{{ bill.date|default(value='') }}">
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+    </div>
+</body>
+</html>

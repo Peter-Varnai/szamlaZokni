@@ -1,0 +1,186 @@
+<!DOCTYPE html<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&display=swap" rel="stylesheet">
+        <title>Financial Report</title>
+        <style>
+        @page {
+            size: A4;
+            margin: 0;
+        }
+
+        body {
+            margin: 0;
+            <!-- font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; -->
+        background-color: #fff;
+        color: #333;
+        font-family: "Merriweather", serif;
+        font-optical-sizing: auto;
+        font-weight: <weight>;
+        font-style: normal;
+        }
+
+        .page {
+            width: 210mm;
+            height: 297mm;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-sizing: border-box;
+            padding: 14mm;
+            position: relative;
+            page-break-after: always;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20mm;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 5mm;
+        }
+
+        .header img {
+            height: 30px;
+            object-fit: contain;
+        }
+
+        .header .title {
+            font-size: 14pt;
+            font-weight: 600;
+            text-align: center;
+            flex-grow: 1;
+            margin: 0 20px;
+        }
+
+        .header .date {
+            font-size: 10pt;
+            color: #666;
+            white-space: nowrap;
+        }
+
+        .content-container {
+            display: flex;
+            flex-grow: 1;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        img.centered-image {
+            max-width: 75%;
+            max-height: 270mm;
+            object-fit: contain;
+            border: 1px solid #eee;
+            box-shadow: 0 0 4mm rgba(0, 0, 0, 0.05);
+        }
+
+        .info-table {
+            color: #919191;
+            border-collapse: collapse;
+            width: 27%;
+            font-size: 10.5pt;
+        }
+
+        .info-table td {
+            padding: 6px 10px;
+            border-bottom: 1px dashed #cecece;
+        }
+
+        .info-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .page-number {
+            position: absolute;
+            bottom: 10mm;
+            right: 14mm;
+            font-size: 10pt;
+            color: #999;
+        }
+
+        .d_logo {
+            position: absolute;
+            width: 65%;
+            bottom: 9mm;
+            right: -3mm;
+            opacity: 45%;
+        }
+
+        </style>
+    </head>
+    <body>
+        {% set total_pages = report_data | length %}
+        {% set today = now() | date(format="%d.%m.%Y") %}
+        {% for page in report_data %}
+        <div class="page">
+            <div class="content-container">
+                <!-- <img src="/f/pdf_imgs/{{ page.filename }}" class="centered-image" alt="Bill image"> -->
+                <img src="file:///home/nixos/projects/szamlazokni/bills_to_db/public/pdf_imgs/{{ page.filename }}" class="centered-image" alt="Bill image">
+                <table class="info-table">
+                    <tr>
+                        <td>No. {{ page.expense_id}}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ page.amount }} €</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            {% if page.expense_type == 1 %}Honorare Kurator:innen{% endif %}
+                            {% if page.expense_type == 2 %}Honorare Texte{% endif %}
+                            {% if page.expense_type == 3 %}Honorare Grafik/Layout/Fotos{% endif %}
+                            {% if page.expense_type == 4 %}Honorare Künstler:innen – Gruppenausstellung{% endif %}
+                            {% if page.expense_type == 5 %}Honorar Künstler:in – Einzelausstellung{% endif %}
+                            {% if page.expense_type == 6 %}Materialkosten{% endif %}
+                            {% if page.expense_type == 7 %}Reise- und Aufenthaltskosten{% endif %}
+                            {% if page.expense_type == 8 %}Transporte{% endif %}
+                            {% if page.expense_type == 9 %}Öffentlichkeitsarbeit, Marketing, PR, Social Media{% endif %}
+                            {% if page.expense_type == 10 %}Abgaben, Versicherungen{% endif %}
+                            {% if page.expense_type == 11 %}Miete Veranstaltungsort{% endif %}
+                            {% if page.expense_type == 12 %}Technische Ausstattung{% endif %}
+                            {% if page.expense_type == 13 %}Druckkosten Publikation{% endif %}
+                            {% if page.expense_type == 14 %}Discotec: Künstlerische Leitung, Geschäftsführung{% endif %}
+                            {% if page.expense_type == 15 %}Bewirtung, Eröffnung{% endif %}
+                            {% if page.expense_type == 16 %}Homepage / Internet / EDV{% endif %}
+                            {% if page.expense_type == 17 %}Sonstige Bürokosten (Heizung, Reinigung, Telefon, Reparaturen){% endif %}
+                            {% if page.expense_type == 18 %}Büromaterial, Sachgüter{% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>{{ page.partner }}</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="page-number">
+            <!-- <img class="d_logo" src="/f/discotec_Icon_leer_schwarz.png"> -->
+            <img class="d_logo" src="file:///home/nixos/projects/szamlazokni/bills_to_db/public/discotec_Icon_leer_Variante1.png">
+                Page {{ loop.index }} of {{ total_pages }}
+            </div>
+        </div>
+        {% endfor %}
+    </body>
+</html>
+
+
+<!-- Honorare Kurator:innen|-1800.0 -->
+<!-- Honorare Grafik/Layout/Fotos|-2980.0 -->
+<!-- Honorare Künstler:innen – Gruppenausstellung|-4340.56 -->
+<!-- Honorar Künstler:in – Einzelausstellung|-3000.0 -->
+<!-- Materialkosten|-3503.57 -->
+<!-- 7Reise- und Aufenthaltskosten|-85.0 -->
+<!-- 8Transporte|-49.7 -->
+<!-- 9Öffentlichkeitsarbeit, Marketing, PR, Social Media|-177.32 -->
+<!-- Abgaben, Versicherungen|-804.71 -->
+<!-- Miete Veranstaltungsort|-10204.79 -->
+<!-- Technische Ausstattung|-1081.27 -->
+<!-- Discotec: Künstlerische Leitung, Geschäftsführung|-14850.0 -->
+<!-- Bewirtung, Eröffnung|-1443.19 -->
+<!-- Homepage / Internet / EDV|-578.97 -->
+<!-- Sonstige Bürokosten (Heizung, Reinigung, Telefon, Reparaturen)|-317.77 -->
+<!-- Büromaterial, Sachgüter|-275.76 -->

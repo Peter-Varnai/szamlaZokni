@@ -1,0 +1,264 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    /* padding: 20px; */
+    background-color: #f5f7fa;
+}
+
+.doc-body {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.table-container {
+    flex: 1;
+    min-width: 400px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    overflow: hidden;
+    /* margin-bottom: 20px; */
+}
+
+.table-container:nth-child(2) {
+    flex: 2;
+    min-width: 600px;
+}
+
+.scrollable-table {
+    max-height: 95vh;
+    overflow-y: auto;
+    padding: 15px;
+}
+
+h1 {
+    margin-top: 0;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e0e0e0;
+    color: #2c3e50;
+}
+
+/* ===== BILLS TABLE ===== */
+.bills-info {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 15px;
+}
+
+.bill-large-row {
+    background: white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    border-radius: 4px;
+}
+
+.bill-filename {
+    width: 45%;
+    vertical-align: top;
+    padding: 10px;
+}
+
+.bill-pic {
+    max-width: 100%;
+    max-height: 300px;
+    display: block;
+    margin: 0 auto;
+    border: 1px solid #eee;
+    border-radius: 4px;
+}
+
+.bill-small-row {
+    /* width: 55%; */
+    vertical-align: top;
+    padding: 10px;
+}
+
+.bill-sub-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.bill-table-legend-col {
+    color: #7f8c8d;
+    width: 30%;
+    padding: 8px 5px;
+}
+
+.bill-table-info-col {
+    padding: 8px 10px;
+    text-align: right;
+    font-weight: 500;
+}
+
+.bill-id {
+    color: #2c3e50;
+    font-weight: bold;
+}
+
+.bill-amount {
+    font-size: 1.2em;
+    color: #27ae60;
+    font-weight: bold;
+}
+
+.edit-bill {
+    padding-top: 15px;
+    text-align: center;
+}
+
+.edit-bill button {
+    background: #3498db;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.edit-bill button:hover {
+    background: #2980b9;
+}
+
+/* ===== EXPENSES TABLE ===== */
+.expenses-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.expenses-table th {
+    background: #2c3e50;
+    color: white;
+    position: sticky;
+    top: 0;
+    padding: 12px 8px;
+}
+
+.expense-row td {
+    padding: 10px 8px;
+    border-bottom: 1px solid #ecf0f1;
+}
+
+.expense-id {
+    color: #7f8c8d;
+    font-size: 0.9em;
+}
+
+.expense-amount {
+    font-weight: 700;
+    color: #5d5d5d;
+}
+
+.input-bill {
+    width: 60px;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    text-align: center;
+}
+
+.expense-type select {
+    width: 100%;
+    padding: 6px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    background: white;
+}
+
+.expense-application select {
+    padding: 6px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    min-width: 90px;
+}
+
+.expense-cash input {
+    transform: scale(1.3);
+}
+
+/* ===== SUMMARY SECTION ===== */
+.applications-summary {
+    flex: 1;
+    min-width: 300px;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    margin-top: 10px;
+    overflow: auto;
+    max-height: 93vh;
+}
+
+.summary-item {
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px dashed #ecf0f1;
+}
+
+.summary-label {
+    font-weight: bold;
+    font-size: 1.1em;
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.summary-value {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #8e44ad;
+    margin: 10px 0;
+}
+
+.detail-table {
+    width: 100%;
+    margin-top: 10px;
+    font-size: 0.9em;
+}
+
+.detail-table th {
+    background: #34495e;
+    color: white;
+    padding: 6px;
+}
+
+.detail-table td {
+    padding: 6px;
+    border-bottom: 1px solid #ecf0f1;
+}
+
+/* ===== BUTTON & FORM ===== */
+.button-54 {
+    background: #3498db;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    margin-bottom: 15px;
+    transition: background 0.3s;
+    display: block;
+    width: 100%;
+}
+
+.button-54:hover {
+    background: #2980b9;
+}
+
+/* ===== SCROLLBAR ===== */
+.scrollable-table::-webkit-scrollbar {
+    width: 8px;
+}
+
+.scrollable-table::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.scrollable-table::-webkit-scrollbar-thumb {
+    background: #bdc3c7;
+    border-radius: 4px;
+}
+
+.scrollable-table::-webkit-scrollbar-thumb:hover {
+    background: #95a5a6;
+
